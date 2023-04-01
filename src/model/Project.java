@@ -1,31 +1,33 @@
 package model;
 
-import java.util.Calendar;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
 
-import java.text.ParseException;
+
 
 
 public class Project{
+	enum ProjectType{
+		DEVELOPMENT,
+		MAINTENANCE,
+		DEPLOYMENT;
+	}
 	
 	private String name;
 	private String clientName;
-	private Calendar initialDate;
-	private Calendar finalDate;
+	private GregorianCalendar initialDate;
+	private GregorianCalendar finalDate;
 	private double budget;
+	private ProjectType type;
 
-	private DateFormat formatter;
-
-	public Project(String name, String clientName, Calendar initialDate, Calendar finalDate, double budget){
-		
-		this.formatter = new SimpleDateFormat("dd/M/yy");
+	public Project(String name, String clientName, double budget, int type, GregorianCalendar initialDate, GregorianCalendar finalDate){
 
 		this.name = name;	
 		this.clientName = clientName;
-		this.initialDate = initialDate;
-		this.finalDate = finalDate;
+		this.type=fromIntToProjectType(type);
 		this.budget = budget;
+		this.initialDate=initialDate;
+		this.finalDate=finalDate;
 	}
 
 	public String getName(){
@@ -36,30 +38,41 @@ public class Project{
 		return clientName;
 	}
 
-	public Calendar getInitialDate(){
+	public GregorianCalendar getInitialDate(){
 		return initialDate;
 	}
 	
-	public String getInitialDateFormated() throws ParseException{
-		return formatter.format(this.initialDate.getTime());
+	public String getInitialDateFormated() {
+		return calendarToString(initialDate);
+
 	}
 
-	public Calendar getFinalDate(){
+	public GregorianCalendar getFinalDate(){
 		return finalDate;
 	}
 
-	public String getFinalDateFormated() throws ParseException{
-		return formatter.format(this.finalDate.getTime());
+	public String getFinalDateFormated(){
+		return calendarToString(finalDate);
 	}		
 
 	public double getBudget(){
 		return budget;
 	}
 
-	public String getProjectInfo() throws ParseException{
+	public String getProjectInfo(){
 		return "\nName: " + name + "\nClient: " + clientName + "\nInitial Date: " + getInitialDateFormated() + 
-		"\nFinal Date: " + getFinalDateFormated() + "\nTotalBudget: " + budget + ".\n";
+		"\nFinal Date: " + getFinalDateFormated() + "\nTotalBudget: " + budget +"\nProjectType: "+ type.name()+"\n";
 	}
+	public ProjectType fromIntToProjectType(int option){
+		ProjectType possibleValues[]=ProjectType.values();
+		return possibleValues[option-1];
+	}
+	public String calendarToString(GregorianCalendar calendar) {
+    	SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+    	String dateInTxtx = format.format(calendar.getTime());
+    	return dateInTxtx;
+	}
+
 }
 
 
