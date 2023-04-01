@@ -89,7 +89,7 @@ public class Main{
 		if(isAdded){
 			System.out.println("The project was added");
 		}else{
-			System.out.println("The project the total of projects is at limit");
+			System.out.println("The number of projects is at limit");
 		}
 		
 	}
